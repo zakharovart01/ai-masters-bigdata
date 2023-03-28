@@ -26,8 +26,8 @@ numeric_transformer = Pipeline(steps=[
 
 categorical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
-            ('onehot', OneHotEncoder(handle_unknown='ignore'))
-            ])
+        ('onehot', OneHotEncoder(handle_unknown='ignore'))
+        ])
 
 fields = ["id", "label"] + numeric_features + categorical_features
 fields_val = ["id"] + numeric_features + categorical_features
@@ -35,12 +35,12 @@ fields_val = ["id"] + numeric_features + categorical_features
 preprocessor = ColumnTransformer(
             transformers=[
                         ('num', numeric_transformer, numeric_features),
-                                ('cat', 'drop', categorical_features)
-                                    ]
+                        ('cat', 'drop', categorical_features)
+            ]
             )
 
 # Now we have a full prediction pipeline.
 model = Pipeline(steps=[
         ('preprocessor', preprocessor),
-            ('logregression', LogisticRegression())
-            ])
+        ('logregression', LogisticRegression())
+        ])
