@@ -1,0 +1,13 @@
+name: MLProject
+
+conda_env: conda.yaml
+# Can have a docker_env instead of a conda_env, e.g.
+# docker_env:
+#    image:  mlflow-docker-example
+
+entry_points:
+  main:
+    parameters:
+      train_path: path
+      model_param1: {type: int, default: 1000}
+    command: "python3 train.py {train_path} {model_param1}"
