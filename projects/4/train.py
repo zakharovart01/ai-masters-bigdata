@@ -3,28 +3,31 @@
 import os
 import sys
 
-SPARK_HOME = "/usr/lib/spark3"
+SPARK_HOME = "/usr/hdp/current/spark2-client"
 PYSPARK_PYTHON = "/opt/conda/envs/dsenv/bin/python"
+PYSPARK_DRIVER_PYTHON = "/opt/conda/envs/dsenv/bin/python"
 os.environ["PYSPARK_PYTHON"]= PYSPARK_PYTHON
-os.environ["PYSPARK_DRIVER_PYTHON"]= PYSPARK_PYTHON
+os.environ["PYSPARK_DRIVER_PYTHON"]= PYSPARK_DRIVER_PYTHON
 os.environ["SPARK_HOME"] = SPARK_HOME
 
 PYSPARK_HOME = os.path.join(SPARK_HOME, "python/lib")
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
 
+input_data = sys.argv[1] 
+output_model = sys.argv[2]
+
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from pyspark.sql.types import *
+from pyspark import SparkContext
 
+sc =SparkContext()
 conf = SparkConf()
-spark = SparkSession.builder.config(conf=conf).appName("Spark ML Intro").getOrCreate()
+spark = SparkSession.builder.config(conf=conf).appName("Spark SQL").getOrCreate()
+spark.sparkContext.setLogLevel('WARN')
 
 from model import pipeline
 from pyspark.sql.types import *
-
-input_data = sys.argv[1]
-output_model = sys.argv[2]
 
 schema = StructType(fields=[
     StructField("overall", FloatType()),
